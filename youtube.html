@@ -1,0 +1,147 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<style>
+    body {
+  background-color: #ffffff;
+  margin: 0;
+}
+
+#navbar {
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  display: flex;
+}
+
+div > #youtube-img {
+  height: 20px;
+  width: 70px;
+  margin-left: 25px;
+  color: rgb(51, 51, 51);
+  margin-right: 10px;
+
+  margin-top: 35px;
+}
+#ham-menu {
+  background-color: transparent;
+  border-radius: 50%;
+  height: 50px;
+  width: 80px;
+  margin-top: 20px;
+}
+
+#search_box {
+  height: 40px;
+  width: 530px;
+  margin-left: 100px;
+  margin-top: 2px;
+  margin-top: 20px;
+}
+#magnify {
+  height: 20px;
+  width: 20px;
+  padding: 2px;
+}
+hr {
+  margin-top: 25px;
+}
+
+#search_button {
+  height: 40px;
+  width: 70px;
+  background-color: #f0f0f0;
+  border-radius: 2px;
+  margin-top: 2px;
+  margin-top: 20px;
+  border: gray 1px solid;
+}
+#mike {
+  margin-left: 20px;
+  border: none;
+  height: 20px;
+  width: 20px;
+  margin-top: 25px;
+}
+#video {
+  margin-left: 170px;
+  height: 20px;
+  width: 20px;
+  margin-top: 25px;
+}
+#menu {
+  margin-left: 50px;
+  height: 20px;
+  width: 20px;
+  margin-top: 25px;
+}
+#bell {
+  margin-left: 40px;
+  height: 20px;
+  width: 20px;
+  margin-top: 25px;
+}
+#profile-pic {
+  margin-left: 40px;
+  border-radius: 50%;
+  margin-top: 20px;
+}
+#videos {
+  display: grid;
+  grid-template-columns: repeat(4, 10%);
+  gap: 15%;
+  margin-left: 30px;
+}
+</style>
+<body>
+    <div id="navbar">
+        <img id="ham-menu" src="https://as1.ftcdn.net/v2/jpg/01/66/66/56/500_F_166665616_guHEOd6zztex1rqNXoVzW2tNxIclPJpw.jpg" alt="">
+        <img id="youtube-img"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/YouTube_Logo_%282013-2017%29.svg/2560px-YouTube_Logo_%282013-2017%29.svg.png"
+            alt="">
+    
+        <form id="myform">
+            <input type="text" id="search_box" placeholder="Search">
+        </form>
+        <button id="search_button" onclick="getVideo()"><img id="magnify"
+                src="https://img.icons8.com/material-outlined/2x/ffffff/search.png" alt=""></button>
+    
+                <img id="mike" src="https://image.flaticon.com/icons/png/512/25/25682.png" alt="">
+                <img id="video" src="https://image.flaticon.com/icons/png/512/711/711245.png" alt="">
+                <img id="menu" src="https://image.flaticon.com/icons/png/512/17/17620.png" alt="">
+                <img id="bell" src="https://image.flaticon.com/icons/png/512/3602/3602123.png" alt="">
+                <img id="profile-pic" src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?size=626&ext=jpg" alt="">    
+    </div>
+    <hr>
+    <div id="videos"></div>
+
+</body>
+</html>
+
+<script>
+    
+    async function getVideo() {
+        let q = document.getElementById("search_box").value
+        let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?q=${q}&key=AIzaSyAh3JK5pO5WSVbGkXqvvnYpw4gEIEJnwrk&maxResults=20`)
+        let data = await res.json()
+        let video_div = document.getElementById("videos")
+        let { items } = data
+        items = items.filter((el) => {
+            return el.id.videoId != undefined;
+        })
+        items.forEach(({ id: { videoId } }) => {
+            let div = document.createElement("div")
+            div.style.marginTop = "10px"
+            div.innerHTML = `<iframe width="300" height="200" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+            video_div.appendChild(div)
+        });
+    }
+
+    
+
+</script>
